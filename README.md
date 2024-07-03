@@ -1,0 +1,3 @@
+## SimilarityChecker
+
+SimilarityChecker code & TDD
