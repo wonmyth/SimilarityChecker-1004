@@ -1,5 +1,7 @@
 #include <string>
 #include <stdexcept>
+#include <vector>
+
 
 using namespace std;
 
@@ -15,8 +17,41 @@ public:
 		return calLengthScore(A_Length, B_Length);
 	}
 
+	int getStringAlphaScore(const string& A, const string& B) {
+		int A_check[ALPHABET_LENGTH] = {0,}, B_check[ALPHABET_LENGTH] = {0,};
+		
+		for (int i = 0; i < A.length(); i++) {
+			int index = A[i] - 'A';
+			A_check[index] = 1;
+		}
+		for (int i = 0; i < B.length(); i++) {
+			int index = B[i] - 'A';
+			B_check[index] = 1;
+		}
+
+		int diffCnt = 0, sameCnt = 0;
+		int totalCnt = 0;
+
+		for (int i = 0; i < ALPHABET_LENGTH; i++) {
+			if (A_check[i] != B_check[i]) diffCnt++;
+			if (A_check[i] == 1 && B_check[i] == 1) sameCnt++;
+			if (A_check[i] == 1 || B_check[i] == 1) totalCnt++;
+
+		}
+
+		if (diffCnt == 0) return MAX_SCORE_STRING_ALPHA;
+		if (sameCnt == 0) return MIN_SCORE_STRING_ALPHA;
+
+		int score = MAX_SCORE_STRING_ALPHA * sameCnt / totalCnt;
+		return score;
+
+	}
+
 	static const int MAX_SCORE_STRING_LENGTH = 60;
 	static const int MIN_SCORE_STRING_LENGTH = 0;
+
+	static const int MAX_SCORE_STRING_ALPHA = 40;
+	static const int MIN_SCORE_STRING_ALPHA = 0;
 
 private:
 	bool isSameLength(int a, int b) {
@@ -44,4 +79,6 @@ private:
 		
 		return (int)ret;
 	}
+
+	static const int ALPHABET_LENGTH = 26;
 };
